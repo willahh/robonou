@@ -1,8 +1,0 @@
-{
-    "token" : "Your Auth Token",
-    "prefix" : "!",
-    "bot-name" : "CoolDiscordBot",
-    "extension-folders" : [
-        "src/discord/extensions"
-    ]
-}
