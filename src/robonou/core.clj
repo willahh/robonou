@@ -6,6 +6,8 @@
             [clj-http.client :as client]
             [net.cgrand.enlive-html :as html]))
 
+
+
 (defn citation-du-jour []
   (let [body (:body (client/get "http://evene.lefigaro.fr/citations"))
         node (html/html-snippet body)]
@@ -13,9 +15,20 @@
         first :content first)))
 
 (def settings (clojure.edn/read-string (slurp "data/settings.edn")))
+(def links (clojure.edn/read-string (slurp "data/links.edn")))
 (def token (:token settings))
-(def state (atom nil))
+(def state (atom {::mode ::game-math}))
 (def channel {::bot-test 580121292121047062})
+
+
+
+;; ------------
+(def command-list
+  {:command-list/help "Affiche l'aide"
+   :command-list/commands "Affiche les commandes disponibles"
+   :command-list/links "Affiche les liens utiles"
+   :command-list/hidden-commands "A tes risques et périls"
+   :command-list/day-quote "La citation du jour"})
 
 (def command-list-hidden
   {:command-list-hidden/lewp ""
@@ -24,19 +37,13 @@
    :command-list-hidden/robonou ""
    :command-list-hidden/clj-eval "Clojure repl eval"})
 
-(def command-list
-  {:command-list/help "Affiche l'aide"
-   :command-list/commands "Affiche les commandes disponibles"
-   :command-list/hidden-commands "A tes risques et périls"
-   :command-list/day-quote "La citation du jour"})
-
 (defmulti command
   (fn [command-name]
     command-name))
 
 (defmethod command :command-list/help
   [command-name]
-  "Bienvenue sur l'aide intéractive, tape !comands pour afficher la liste des commandes")
+  "Bienvenue sur l'aide intéractive, tape !commands pour afficher la liste des commandes")
 
 (defmethod command :command-list-hidden/lewp
   [command-name]
@@ -76,14 +83,30 @@
   [command-name]
   (citation-du-jour))
 
+(defmethod command :command-list/links
+  [command-name]
+  (apply str (map (fn [link]
+                    (str (:links/name link) "\n"
+                         (when (:links/url link)
+                           (str (:links/url link) "\n")) 
+                         (:links/description link) "\n"
+                         "\n")
+                    )
+                  links)
+         ))
+
 (defn command-str [command-name]
   (str "!" (name command-name)))
+
 
 (defmulti handle-event
   (fn [event-type event-data]
     event-type))
 
 (defmethod handle-event :default
+  [event-type event-data])
+
+(defmethod handle-event :connexion
   [event-type event-data])
 
 (defmethod handle-event :message-create
