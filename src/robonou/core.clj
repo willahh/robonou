@@ -7,7 +7,7 @@
             [net.cgrand.enlive-html :as html]))
 
 
-
+;; todo publish to netlify
 (defn citation-du-jour []
   (let [body (:body (client/get "http://evene.lefigaro.fr/citations"))
         node (html/html-snippet body)]
