@@ -1,11 +1,1 @@
-[{:links/name "Discord"
-  :links/description "Le channel Discord est Dtube"}
- {:links/name "Spreadsheet tools"
-  :links/description "Spreadsheet principale, liste des outils / technos utilisées"
-  :links/url "https://docs.google.com/spreadsheets/d/1H5blQkrCHhPoUsTk3tE4M7ysxtKTBLeQcFIBk5LL9T4/edit#gid=438694809"}
- {:links/name "Spreadsheet data"
-  :links/description "Spreadsheet structure data en cours"
-  :links/url "https://docs.google.com/spreadsheets/d/19IenrL8ngoG6stOY3nkLzby1HUPMgDmNBAg4_aT45fw/edit#gid=0"}
- {:links/name "Github"
-  :links/description "Le github public"
-  :links/url "https://github.com/landelprod"}]
+[]
